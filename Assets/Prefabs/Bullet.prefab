@@ -177,3 +177,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 6
   fireDelay: 0.3
+  lifetime: 2
