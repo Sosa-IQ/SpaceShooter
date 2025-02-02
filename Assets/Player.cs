@@ -3,7 +3,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class GameController : MonoBehaviour
+public class Player : MonoBehaviour
 {
 
     public float moveSpeed = 6.0f;
