@@ -151,9 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb2686916d4d42cfb2e134de745a26c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 4.5
   rotationSpeed: 50
   maxRotation: 10
+  bullet: {fileID: 4585886394858215804, guid: 3acba43f1893345c68420ecf95275f08, type: 3}
 --- !u!212 &1603086
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -752,37 +753,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 10.159145}
   m_EdgeRadius: 0
---- !u!1 &1198732465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1198732466}
-  m_Layer: 0
-  m_Name: GameController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1198732466
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198732465}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1256622621
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,5 +873,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1603087}
-  - {fileID: 1198732466}
   - {fileID: 1675392517}
