@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     public float moveSpeed = 6.0f;
     public float rotationSpeed = 50.0f;
     public float maxRotation = 10.0f;
+    public GameObject bullet;
     private BoxCollider2D boxCollider;
+    float bulletCooldown = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +25,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         MoveShip();
+
+        // Fire bullet
+        bulletCooldown -= Time.deltaTime;
+        if (Input.GetButton("Fire1")) FireBullet();
     }
 
     void MoveShip() {
@@ -77,5 +83,16 @@ public class Player : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void FireBullet() {
+        // Create bullet object
+        float fireRate = bullet.GetComponent<Bullet>().fireDelay;
+        if (bulletCooldown <= 0) {
+            bulletCooldown = fireRate;
+            // offset bullet in front of player
+            Vector3 bulletOffset = transform.rotation * new Vector3(0, 0.5f, 0);
+            Instantiate(bullet, transform.position + bulletOffset, transform.rotation);
+        }
     }
 }
