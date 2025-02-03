@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
     public float maxRotation = 10.0f;
     public GameObject bullet;
     private BoxCollider2D boxCollider;
-    private int speedPowerup = 0;
-    private int fireratePowerup = 0;
     float bulletCooldown = 0f;
-
+    [HideInInspector]
+    public int speedPowerup = 0;
+    public int fireratePowerup = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
