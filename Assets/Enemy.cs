@@ -40,4 +40,20 @@ public class Enemy : MonoBehaviour
         Vector3 movement = new Vector3(0, enemySpeed * Time.deltaTime, 0.0f);
         transform.position -= transform.rotation * movement;
     }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Bullet")) {
+            hitpoints--; // Decrement hitpoints if hit by bullet
+            if (hitpoints <= 0) {
+                Destroy(gameObject); // Destroy self if hitpoints are 0
+            }
+            Destroy(other.gameObject); // Destroy bullet
+        } else if (other.CompareTag("Player")) {
+            Destroy(gameObject); // Destroy self if hit player
+            other.GetComponent<Player>().hitpoints--; // Decrement player hitpoints
+            if (other.GetComponent<Player>().hitpoints <= 0) {
+                Destroy(other.gameObject); // If player hp is 0, destroy player
+            }
+        }
+    }
 }
