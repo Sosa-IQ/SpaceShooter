@@ -3,7 +3,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletSpeed = 6f;
-    public float fireDelay = 0.5f;
     public float lifetime = 4.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
