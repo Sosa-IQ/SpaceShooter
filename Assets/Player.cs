@@ -5,12 +5,14 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-
+    public int hitpoints = 3;
     public float moveSpeed = 6.0f;
     public float rotationSpeed = 50.0f;
     public float maxRotation = 10.0f;
     public GameObject bullet;
     private BoxCollider2D boxCollider;
+    private int speedPowerup = 0;
+    private int fireratePowerup = 0;
     float bulletCooldown = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -93,6 +95,22 @@ public class Player : MonoBehaviour
             // offset bullet in front of player
             Vector3 bulletOffset = transform.rotation * new Vector3(0, 0.5f, 0);
             Instantiate(bullet, transform.position + bulletOffset, transform.rotation);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Powerup")) {
+            Destroy(other.gameObject);
+            // if speed powerup, increase speed
+            if (other.name == "speedPU(Clone)" && speedPowerup < 3) {
+                speedPowerup++;
+                moveSpeed += 2;
+            }
+            // if firereate powerup, decrease fire delay
+            else if (other.name == "fireratePU(Clone)" && fireratePowerup < 3) {
+                fireratePowerup++;
+                bullet.GetComponent<Bullet>().fireDelay -= 0.1f;
+            }
         }
     }
 }
