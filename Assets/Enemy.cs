@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
     public float enemySpeed = 2f;
     public float rotationSpeed = 50f;
     public int hitpoints = 1;
+    public GameObject speedPowerup;
+    public GameObject fireratePowerup;
     Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +48,8 @@ public class Enemy : MonoBehaviour
             hitpoints--; // Decrement hitpoints if hit by bullet
             if (hitpoints <= 0) {
                 Destroy(gameObject); // Destroy self if hitpoints are 0
+                // Randomly drop powerup
+                DropPowerup();
             }
             Destroy(other.gameObject); // Destroy bullet
         } else if (other.CompareTag("Player")) {
@@ -53,6 +57,29 @@ public class Enemy : MonoBehaviour
             other.GetComponent<Player>().hitpoints--; // Decrement player hitpoints
             if (other.GetComponent<Player>().hitpoints <= 0) {
                 Destroy(other.gameObject); // If player hp is 0, destroy player
+            }
+        }
+    }
+
+    void DropPowerup() {
+        var playerComp = player.GetComponent<Player>();
+        // if player is at max powerups, don't drop powerup
+        if (playerComp.speedPowerup >= 3 && playerComp.fireratePowerup >= 3) return;
+        // 20% chance to drop powerup
+        if (Random.value <= 0.20) {
+            bool dropSpeedPowerup = Random.value < 0.5; // 50% chance to drop speed powerup
+            
+            // if player has max speed powerups, drop firerate powerup (vice versa)
+            if (playerComp.speedPowerup >= 3) {
+                dropSpeedPowerup = false;
+            } else if (playerComp.fireratePowerup >= 3) {
+                dropSpeedPowerup = true;
+            }
+
+            if (dropSpeedPowerup) {
+                Instantiate(speedPowerup, transform.position, Quaternion.identity);
+            } else {
+                Instantiate(fireratePowerup, transform.position, Quaternion.identity);
             }
         }
     }
