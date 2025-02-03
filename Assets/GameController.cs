@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 
 public class GameController : MonoBehaviour
@@ -6,6 +7,7 @@ public class GameController : MonoBehaviour
     public GameObject weakEnemy;
     public GameObject mediumEnemy;
     public GameObject strongEnemy;
+    public GameObject player;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -24,6 +26,21 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if player is destroyed, stop spawning enemies and end game
+        if (player == null){
+            // destroy all enemies and powerups
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
+            GameObject[] objects = enemies.Concat(powerups).ToArray();
+            foreach (GameObject obj in objects)
+            {
+                Destroy(obj);
+            }
+            // end game
+            Debug.Log("Game Over");
+            return;
+        };
+
         nextEnemy -= Time.deltaTime;
 
         if (nextEnemy <= 0)
