@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public GameObject mediumEnemy;
     public GameObject strongEnemy;
     public GameObject player;
+    public GameObject gameOverPanel;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -20,14 +21,17 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // Spawn player
+        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
+        // Make sure panel is hidden when game starts
+        gameOverPanel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         // if player is destroyed, stop spawning enemies and end game
-        if (player == null){
+        if (GameObject.Find("Player(Clone)") == null){
             // destroy all enemies and powerups
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
@@ -37,7 +41,7 @@ public class GameController : MonoBehaviour
                 Destroy(obj);
             }
             // end game
-            Debug.Log("Game Over");
+            gameOverPanel.SetActive(true);
             return;
         };
 
@@ -50,6 +54,11 @@ public class GameController : MonoBehaviour
         }
 
         ReduceSpawnRate();
+
+        // Close game when escape is pressed
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            CloseGame();
+        }
     }
 
     void SpawnEnemy(){
@@ -89,5 +98,19 @@ public class GameController : MonoBehaviour
                 spawnRate = minSpawnRate;
             }
         }
+    }
+
+    // when button is clicked, hide panel and spawn player
+    public void RestartGame(){
+        // reset spawn rate
+        spawnRate = 5f;
+        nextEnemy = 0f;
+        // spawn player
+        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
+        gameOverPanel.SetActive(false);
+    }
+
+    void CloseGame(){
+        Application.Quit();
     }
 }
