@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     public GameObject gameOverPanel;
     public TextMeshProUGUI scoreDisplay;
     public MeshRenderer background;
+    public GameObject greyMeteor;
+    public GameObject brownMeteor;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -21,6 +23,8 @@ public class GameController : MonoBehaviour
     private float spawnRateDecrement = 0.1f; // Amount to decrease spawn rate over time
     [SerializeField]
     private float minSpawnRate = 0.5f; // Minimum spawn rate
+    private float meteorSpawnRate = 4f;
+    private float nextMeteor = 1f;
     private int totalScore = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,11 +55,17 @@ public class GameController : MonoBehaviour
         };
 
         nextEnemy -= Time.deltaTime;
+        nextMeteor -= Time.deltaTime;
 
         if (nextEnemy <= 0)
         {
             nextEnemy = spawnRate;
             SpawnEnemy();
+        }
+        if (nextMeteor <= 0)
+        {
+            nextMeteor = meteorSpawnRate;
+            SpawnMeteor();
         }
 
         ReduceSpawnRate();
@@ -106,6 +116,32 @@ public class GameController : MonoBehaviour
                 spawnRate = minSpawnRate;
             }
         }
+    }
+
+    // spawn meteors
+    void SpawnMeteor(){
+        // Randomly select meteor type
+        int random = Random.Range(0, 2);
+        GameObject meteor;
+        switch (random) {
+            case 0:
+                meteor = greyMeteor;
+                break;
+            case 1:
+                meteor = brownMeteor;
+                break;
+            default:
+                meteor = greyMeteor;
+                break;
+        }
+
+        // Randomly select spawn position, above camera view (where player is facing)
+        float x = Random.Range(-8f, 8f);
+        float y = Random.Range(6f, 7f);
+        Vector3 spawnPosition = new Vector3(x, y, 0);
+
+        // Spawn meteor
+        Instantiate(meteor, spawnPosition, Quaternion.identity);
     }
 
     // when button is clicked, hide panel and spawn player
