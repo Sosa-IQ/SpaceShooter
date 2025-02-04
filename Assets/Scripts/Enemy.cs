@@ -77,31 +77,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void PlayEnemySFX()
-    {
-        if (sfxSource != null && go.enemyDeathSfx != null)
-        {
+    void PlayEnemySFX() {
+        if (sfxSource != null && go.enemyDeathSfx != null) {
             sfxSource.clip = go.enemyDeathSfx;
             sfxSource.Play();
-            Debug.Log("Playing enemy death sfx");
-        }
-        else
-        {
-            Debug.LogWarning("Missing audio source or enemy death SFX clip!");
         }
     }
 
-    void PlayPlayerDeathSFX()
-    {
-        if (sfxSource != null && go.playerDeathSfx != null)
-        {
+    void PlayPlayerDeathSFX() {
+        if (sfxSource != null && go.playerDeathSfx != null) {
             sfxSource.clip = go.playerDeathSfx;
             sfxSource.Play();
-            Debug.Log("Playing player death sfx");
-        }
-        else
-        {
-            Debug.LogWarning("Missing audio source or player death SFX clip!");
         }
     }
 
