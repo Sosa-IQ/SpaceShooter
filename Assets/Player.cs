@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public GameObject healthBar;
     public Image healthBarFill;
     private BoxCollider2D boxCollider;
+    public Animator animator;
+    public bool isDead = false;
     float bulletCooldown = 0f;
     public int speedPowerup = 0;
     public int fireratePowerup = 0;
@@ -123,5 +125,9 @@ public class Player : MonoBehaviour
                 fireDelay -= 0.1f;
             }
         }
+    }
+
+    public void DestroyPlayer() {
+        Destroy(gameObject);
     }
 }

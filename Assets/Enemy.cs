@@ -61,7 +61,8 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject); // Destroy self if hit player
             other.GetComponent<Player>().hitpoints--; // Decrement player hitpoints
             if (other.GetComponent<Player>().hitpoints <= 0) {
-                Destroy(other.gameObject); // If player hp is 0, destroy player
+                // play animation on player death (which destroys player object via animation event)
+                other.GetComponent<Player>().animator.SetTrigger("isDead");
             }
         }
     }
