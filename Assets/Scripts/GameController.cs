@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour
     public MeshRenderer background;
     public GameObject greyMeteor;
     public GameObject brownMeteor;
+    public AudioSource musicSource;
+    public AudioClip backgroundMusic;
+    public AudioClip gameOversfx;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -30,6 +33,10 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Play background music
+        musicSource.clip = backgroundMusic;
+        musicSource.loop = true;
+        musicSource.Play();
         // Spawn player
         Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
         // Make sure panel is hidden when game starts
@@ -39,6 +46,13 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if background music stops AND musicSource is not gameOver, player is dead, so play game over sfx
+        if (!musicSource.isPlaying && musicSource.clip != gameOversfx){
+            // play game over sfx one time
+            musicSource.clip = gameOversfx;
+            musicSource.loop = false;
+            musicSource.Play();
+        }
         // if player is destroyed, stop spawning enemies and end game
         if (GameObject.Find("Player(Clone)") == null){
             // destroy all enemies and powerups
@@ -48,6 +62,10 @@ public class GameController : MonoBehaviour
             foreach (GameObject obj in objects)
             {
                 Destroy(obj);
+            }
+            // if music is background music, stop it
+            if (musicSource.clip == backgroundMusic) {
+                musicSource.Stop();
             }
             // end game
             gameOverPanel.SetActive(true);
@@ -152,6 +170,11 @@ public class GameController : MonoBehaviour
         // reset score
         totalScore = 0;
         scoreDisplay.SetText("Score: " + totalScore);
+        // stop gameOversfx, play background music on loop
+        musicSource.Stop();
+        musicSource.clip = backgroundMusic;
+        musicSource.loop = true;
+        musicSource.Play();
         // spawn player
         Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
         gameOverPanel.SetActive(false);
