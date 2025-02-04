@@ -9,12 +9,16 @@ public class Enemy : MonoBehaviour
     public GameObject speedPowerup;
     public GameObject fireratePowerup;
     public int scoreValue;
+    private AudioSource sfxSource;
     private GameObject gameController;
+    private GameController go;
     Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameController = GameObject.Find("Game Controller");
+        go = gameController.GetComponent<GameController>();
+        sfxSource = gameController.GetComponentsInChildren<AudioSource>()[1]; // Get the sfxSource in Game Controller
     }
 
     // Update is called once per frame
@@ -50,6 +54,8 @@ public class Enemy : MonoBehaviour
             hitpoints--; // Decrement hitpoints if hit by bullet
             Destroy(other.gameObject); // Destroy bullet
             if (hitpoints <= 0) {
+                // play enemy death sfx
+                PlayEnemySFX();
                 Destroy(gameObject); // Destroy self if hitpoints are 0
                 // Add score
                 gameController.GetComponent<GameController>().AddScore(scoreValue);
@@ -58,12 +64,44 @@ public class Enemy : MonoBehaviour
             }
             
         } else if (other.CompareTag("Player")) {
+            // play enemy death sfx
+            PlayEnemySFX();
             Destroy(gameObject); // Destroy self if hit player
             other.GetComponent<Player>().hitpoints--; // Decrement player hitpoints
             if (other.GetComponent<Player>().hitpoints <= 0) {
+                // play player death sfx
+                PlayPlayerDeathSFX();
                 // play animation on player death (which destroys player object via animation event)
                 other.GetComponent<Player>().animator.SetTrigger("isDead");
             }
+        }
+    }
+
+    void PlayEnemySFX()
+    {
+        if (sfxSource != null && go.enemyDeathSfx != null)
+        {
+            sfxSource.clip = go.enemyDeathSfx;
+            sfxSource.Play();
+            Debug.Log("Playing enemy death sfx");
+        }
+        else
+        {
+            Debug.LogWarning("Missing audio source or enemy death SFX clip!");
+        }
+    }
+
+    void PlayPlayerDeathSFX()
+    {
+        if (sfxSource != null && go.playerDeathSfx != null)
+        {
+            sfxSource.clip = go.playerDeathSfx;
+            sfxSource.Play();
+            Debug.Log("Playing player death sfx");
+        }
+        else
+        {
+            Debug.LogWarning("Missing audio source or player death SFX clip!");
         }
     }
 

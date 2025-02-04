@@ -16,8 +16,11 @@ public class GameController : MonoBehaviour
     public GameObject greyMeteor;
     public GameObject brownMeteor;
     public AudioSource musicSource;
+    public AudioSource sfxSource;
     public AudioClip backgroundMusic;
     public AudioClip gameOversfx;
+    public AudioClip enemyDeathSfx;
+    public AudioClip playerDeathSfx;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
