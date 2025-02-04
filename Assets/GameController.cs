@@ -118,7 +118,6 @@ public class GameController : MonoBehaviour
 
     public void AddScore(int score){
         totalScore += score;
-        Debug.Log("Score: " + totalScore);
         // Update score text
         scoreDisplay.SetText("Score: " + totalScore);
     }
