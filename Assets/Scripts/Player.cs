@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     public Image healthBarFill;
     private BoxCollider2D boxCollider;
     public Animator animator;
-    public bool isDead = false;
+    public AudioSource sfxSource;
+    public AudioClip fireSfx;
     float bulletCooldown = 0f;
     public int speedPowerup = 0;
     public int fireratePowerup = 0;
@@ -105,6 +106,13 @@ public class Player : MonoBehaviour
         // Create bullet object
         if (bulletCooldown <= 0) {
             bulletCooldown = fireDelay;
+            // stop previous bullet sfx
+            if (sfxSource.isPlaying && sfxSource.clip == fireSfx) {
+                sfxSource.Stop();
+            }
+            // play new bullet sfx
+            sfxSource.clip = fireSfx;
+            sfxSource.Play();
             // offset bullet in front of player
             Vector3 bulletOffset = transform.rotation * new Vector3(0, 0.5f, 0);
             Instantiate(bullet, transform.position + bulletOffset, transform.rotation);

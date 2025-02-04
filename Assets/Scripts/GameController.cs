@@ -15,6 +15,12 @@ public class GameController : MonoBehaviour
     public MeshRenderer background;
     public GameObject greyMeteor;
     public GameObject brownMeteor;
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
+    public AudioClip backgroundMusic;
+    public AudioClip gameOversfx;
+    public AudioClip enemyDeathSfx;
+    public AudioClip playerDeathSfx;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -26,10 +32,15 @@ public class GameController : MonoBehaviour
     private float meteorSpawnRate = 4f;
     private float nextMeteor = 1f;
     private int totalScore = 0;
+    private bool isGameOver = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Play background music
+        musicSource.clip = backgroundMusic;
+        musicSource.loop = true;
+        musicSource.Play();
         // Spawn player
         Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
         // Make sure panel is hidden when game starts
@@ -39,6 +50,15 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if background music stops AND musicSource is not gameOver, player is dead, so play game over sfx
+        if (!musicSource.isPlaying && musicSource.clip != gameOversfx){
+            // play game over sfx one time
+            musicSource.clip = gameOversfx;
+            musicSource.loop = false;
+            musicSource.Play();
+        }
+        // if game over, return
+        if (isGameOver) return;
         // if player is destroyed, stop spawning enemies and end game
         if (GameObject.Find("Player(Clone)") == null){
             // destroy all enemies and powerups
@@ -49,10 +69,16 @@ public class GameController : MonoBehaviour
             {
                 Destroy(obj);
             }
-            // end game
-            gameOverPanel.SetActive(true);
+            // if music is background music, stop it
+            if (musicSource.clip == backgroundMusic) {
+                musicSource.Stop();
+            }
+            // wait 1 second, end game
+            Invoke("EndGame", 0.5f);
             return;
-        };
+        } else {
+            gameOverPanel.SetActive(false);
+        }
 
         nextEnemy -= Time.deltaTime;
         nextMeteor -= Time.deltaTime;
@@ -146,15 +172,22 @@ public class GameController : MonoBehaviour
 
     // when button is clicked, hide panel and spawn player
     public void RestartGame(){
+        // spawn player
+        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
+        // hide game over panel
+        gameOverPanel.SetActive(false);
+        isGameOver = false;
         // reset spawn rate
         spawnRate = 5f;
         nextEnemy = 1f;
         // reset score
         totalScore = 0;
         scoreDisplay.SetText("Score: " + totalScore);
-        // spawn player
-        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
-        gameOverPanel.SetActive(false);
+        // stop gameOversfx, play background music on loop
+        musicSource.Stop();
+        musicSource.clip = backgroundMusic;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void AddScore(int score){
@@ -163,6 +196,10 @@ public class GameController : MonoBehaviour
         scoreDisplay.SetText("Score: " + totalScore);
     }
 
+    void EndGame() {
+        gameOverPanel.SetActive(true);
+        isGameOver = true;
+    }
     void CloseGame(){
         Application.Quit();
     }
