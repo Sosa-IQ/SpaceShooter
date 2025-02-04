@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         
         // track player position
         if (player == null) {
-            GameObject go = GameObject.Find("Player");
+            GameObject go = GameObject.Find("Player(Clone)");
             // if player is found, set player to player's transform
             if (go != null) {
                 player = go.transform;
