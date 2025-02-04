@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
     private float meteorSpawnRate = 4f;
     private float nextMeteor = 1f;
     private int totalScore = 0;
+    private bool isGameOver = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,6 +57,8 @@ public class GameController : MonoBehaviour
             musicSource.loop = false;
             musicSource.Play();
         }
+        // if game over, return
+        if (isGameOver) return;
         // if player is destroyed, stop spawning enemies and end game
         if (GameObject.Find("Player(Clone)") == null){
             // destroy all enemies and powerups
@@ -70,10 +73,12 @@ public class GameController : MonoBehaviour
             if (musicSource.clip == backgroundMusic) {
                 musicSource.Stop();
             }
-            // end game
-            gameOverPanel.SetActive(true);
+            // wait 1 second, end game
+            Invoke("EndGame", 0.5f);
             return;
-        };
+        } else {
+            gameOverPanel.SetActive(false);
+        }
 
         nextEnemy -= Time.deltaTime;
         nextMeteor -= Time.deltaTime;
@@ -167,6 +172,11 @@ public class GameController : MonoBehaviour
 
     // when button is clicked, hide panel and spawn player
     public void RestartGame(){
+        // spawn player
+        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
+        // hide game over panel
+        gameOverPanel.SetActive(false);
+        isGameOver = false;
         // reset spawn rate
         spawnRate = 5f;
         nextEnemy = 1f;
@@ -178,9 +188,6 @@ public class GameController : MonoBehaviour
         musicSource.clip = backgroundMusic;
         musicSource.loop = true;
         musicSource.Play();
-        // spawn player
-        Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
-        gameOverPanel.SetActive(false);
     }
 
     public void AddScore(int score){
@@ -189,6 +196,10 @@ public class GameController : MonoBehaviour
         scoreDisplay.SetText("Score: " + totalScore);
     }
 
+    void EndGame() {
+        gameOverPanel.SetActive(true);
+        isGameOver = true;
+    }
     void CloseGame(){
         Application.Quit();
     }
