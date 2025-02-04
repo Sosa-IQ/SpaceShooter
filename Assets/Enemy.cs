@@ -8,11 +8,13 @@ public class Enemy : MonoBehaviour
     public int hitpoints = 1;
     public GameObject speedPowerup;
     public GameObject fireratePowerup;
+    public int scoreValue;
+    public GameObject gameController;
     Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameController = GameObject.Find("Game Controller");
     }
 
     // Update is called once per frame
@@ -46,12 +48,15 @@ public class Enemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Bullet")) {
             hitpoints--; // Decrement hitpoints if hit by bullet
+            Destroy(other.gameObject); // Destroy bullet
             if (hitpoints <= 0) {
                 Destroy(gameObject); // Destroy self if hitpoints are 0
+                // Add score
+                gameController.GetComponent<GameController>().AddScore(scoreValue);
                 // Randomly drop powerup
                 DropPowerup();
             }
-            Destroy(other.gameObject); // Destroy bullet
+            
         } else if (other.CompareTag("Player")) {
             Destroy(gameObject); // Destroy self if hit player
             other.GetComponent<Player>().hitpoints--; // Decrement player hitpoints

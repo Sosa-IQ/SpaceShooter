@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
+using TMPro;
 
 
 public class GameController : MonoBehaviour
@@ -9,14 +11,16 @@ public class GameController : MonoBehaviour
     public GameObject strongEnemy;
     public GameObject player;
     public GameObject gameOverPanel;
+    public TextMeshProUGUI scoreDisplay;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
-    private float nextEnemy = 0f; // Countdown timer between enemy spawns
+    private float nextEnemy = 1f; // Countdown timer between enemy spawns
     [SerializeField]
     private float spawnRateDecrement = 0.1f; // Amount to decrease spawn rate over time
     [SerializeField]
     private float minSpawnRate = 0.5f; // Minimum spawn rate
+    private int totalScore = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -104,10 +108,19 @@ public class GameController : MonoBehaviour
     public void RestartGame(){
         // reset spawn rate
         spawnRate = 5f;
-        nextEnemy = 0f;
+        nextEnemy = 1f;
+        // reset score
+        totalScore = 0;
         // spawn player
         Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
         gameOverPanel.SetActive(false);
+    }
+
+    public void AddScore(int score){
+        totalScore += score;
+        Debug.Log("Score: " + totalScore);
+        // Update score text
+        scoreDisplay.SetText("Score: " + totalScore);
     }
 
     void CloseGame(){
