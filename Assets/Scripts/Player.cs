@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     public Image healthBarFill;
     private BoxCollider2D boxCollider;
     public Animator animator;
-    public bool isDead = false;
     float bulletCooldown = 0f;
     public int speedPowerup = 0;
     public int fireratePowerup = 0;
