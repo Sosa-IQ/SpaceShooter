@@ -180,3 +180,5 @@ MonoBehaviour:
   hitpoints: 1
   speedPowerup: {fileID: 170941746407366365, guid: 80c601273f23a4d86a2b9ae6f6ed5cae, type: 3}
   fireratePowerup: {fileID: 9147935988845954986, guid: 9a1f51489e4084325913f5ab3fe0edac, type: 3}
+  gameController: {fileID: 0}
+  scoreValue: 10
