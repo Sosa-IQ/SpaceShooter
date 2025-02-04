@@ -111,6 +111,7 @@ public class GameController : MonoBehaviour
         nextEnemy = 1f;
         // reset score
         totalScore = 0;
+        scoreDisplay.SetText("Score: " + totalScore);
         // spawn player
         Instantiate(player, new Vector3(0, -1f, 0), Quaternion.identity);
         gameOverPanel.SetActive(false);
