@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject gameOverPanel;
     public TextMeshProUGUI scoreDisplay;
+    public MeshRenderer background;
     [SerializeField]
     private float spawnRate = 5f; // Time until next enemy spawns
     [SerializeField]
@@ -58,6 +59,9 @@ public class GameController : MonoBehaviour
         }
 
         ReduceSpawnRate();
+
+        // Offset background y cords for scrolling effect
+        background.material.mainTextureOffset = new Vector2(0, Time.time / 8f);
 
         // Close game when escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape)) {
