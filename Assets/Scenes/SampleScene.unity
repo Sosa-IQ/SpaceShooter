@@ -853,8 +853,10 @@ MonoBehaviour:
   gameOverPanel: {fileID: 361277285}
   scoreDisplay: {fileID: 871395531}
   background: {fileID: 112646139}
+  greyMeteor: {fileID: 3425926554820146871, guid: b32cfa816ca1345029c27195fa452ca9, type: 3}
+  brownMeteor: {fileID: 2538704727487776610, guid: a70800907bc6a48bfa719ee32f644d1c, type: 3}
   spawnRate: 5
-  nextEnemy: 0
+  nextEnemy: 1
   spawnRateDecrement: 0.1
   minSpawnRate: 0.5
 --- !u!4 &525078588

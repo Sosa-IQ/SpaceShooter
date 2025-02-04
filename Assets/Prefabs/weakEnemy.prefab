@@ -175,10 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041da5de9bf234f429c8f66d4b6bd3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpeed: 4
+  enemySpeed: 3.5
   rotationSpeed: 80
   hitpoints: 1
   speedPowerup: {fileID: 170941746407366365, guid: 80c601273f23a4d86a2b9ae6f6ed5cae, type: 3}
   fireratePowerup: {fileID: 9147935988845954986, guid: 9a1f51489e4084325913f5ab3fe0edac, type: 3}
-  gameController: {fileID: 0}
   scoreValue: 10
